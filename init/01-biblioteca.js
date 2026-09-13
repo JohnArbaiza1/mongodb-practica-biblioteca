@@ -47,6 +47,7 @@ db.prestamos.insertMany(
             socioId: 1,
             libroId: ObjectId("6aaaaaaaaaaaaaaaaaaaaa01"),
             fechaPrestamo: new Date("2025-09-01"),
+            fechaLimite: new Date("2025-09-16"),
             fechaDevolucion: new Date("2025-09-15"),
             estado: "Devuelto"
         },
@@ -56,6 +57,7 @@ db.prestamos.insertMany(
             socioId: 2,
             libroId: ObjectId("6aaaaaaaaaaaaaaaaaaaaa02"),
             fechaPrestamo: new Date("2025-09-05"),
+            fechaLimite: new Date("2025-09-20"),
             fechaDevolucion: null,
             estado: "Activo"
         },
@@ -65,6 +67,7 @@ db.prestamos.insertMany(
             socioId: 1,
             libroId: ObjectId("6aaaaaaaaaaaaaaaaaaaaa03"),
             fechaPrestamo: new Date("2025-09-10"),
+            fechaLimite: new Date("2025-09-25"),
             fechaDevolucion: null,
             estado: "Activo"
         },
@@ -74,11 +77,13 @@ db.prestamos.insertMany(
             socioId: 3,
             libroId: ObjectId("6aaaaaaaaaaaaaaaaaaaaa01"),
             fechaPrestamo: new Date("2025-08-20"),
+            fechaLimite: new Date("2025-09-04"),
             fechaDevolucion: new Date("2025-09-03"),
             estado: "Devuelto"
         }
     ]
 )
+
 
 // Definiendo índices
 
