@@ -49,7 +49,6 @@ db.socios.insertMany(
     { ordered: false }
 )
 
-
 // ============================================================
 // READ (FIND)
 // ============================================================
@@ -151,3 +150,78 @@ db.socios.countDocuments({
 
 // distinct() obtiene los valores diferentes de un campo.
 db.libros.distinct("categoria");
+
+// ============================================================
+// UPDATE
+// ============================================================
+
+// $set (asigna un valor (crea el campo si no existe))
+db.prestamos.updateOne(
+    { _id: 2 },
+    { $set: { devuelto: true, diasRetraso: 0 } }
+)
+
+// $inc incrementa o decrementa un número
+db.libros.updateMany(
+    { categoria: "Tecnología" },
+    { $inc: { copias: 1 } }
+)
+
+// $addToSet (añade solo si no existe)
+db.libros.updateOne(
+    { _id: ObjectId("6aaaaaaaaaaaaaaaaaaaaa03") },
+    { $addToSet: { etiqueta: "clasico" } }
+)
+
+// upsert (Si no existe un documento que coincida con el filtro, crea uno nuevo)
+db.socios.updateOne(
+    { codigo: "A004" },
+    { $set: { nombre: "Nuevo Socio" } },
+    { upsert: true }
+)
+
+// findOneAndUpdate() Busca un documento, lo actualiza y devuelve el documento.
+db.socios.findOneAndUpdate(
+    { codigo: "A001" },
+    { $set: { vip: true } },
+    // returnDocument: "after" Indica que queremos recibir el documento DESPUÉS de aplicar la actualización.
+    // "before" -> devuelve el documento antes de actualizarlo.
+    // "after"  -> devuelve el documento después de actualizarlo.
+    // --------------------------------------------------------
+    { returnDocument: "after" }
+)
+
+// ============================================================
+// DELETE
+// ============================================================
+
+// Elimina un préstamo cuyo _id sea 4.
+db.prestamos.deleteOne({
+    _id: 4
+})
+
+// Elimina todos los socios que estén inactivos.
+db.socios.deleteMany({
+    activo: false
+})
+
+// ============================================================
+// ÍNDICES
+// ============================================================
+
+// Crea un índice compuesto por categoria y copias.
+// categoria: 1 -> ascendente.
+// copias: -1  -> descendente.
+db.libros.createIndex({
+    categoria: 1,
+    copias: -1
+})
+
+// Muestra todos los índices de la colección libros.
+db.libros.getIndexes()
+
+// Elimina el índice compuesto de categoria y copias.
+db.libros.dropIndex({
+    categoria: 1,
+    copias: -1
+})
