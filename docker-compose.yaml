@@ -1,0 +1,31 @@
+services:
+  mongodb:
+    image: mongo:8.0
+    container_name: mongodb-servidor-practica
+    restart: always
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      - mongo_datos:/data/db
+      - ./init:/docker-entrypoint-initdb.d:ro
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-practica
+    restart: always
+    ports:
+      - "8083:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/
+      ME_CONFIG_BASICAUTH_ENABLED: "true"
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_datos:
